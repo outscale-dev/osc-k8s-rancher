@@ -1,0 +1,7 @@
+**/terraform.tfvars
+.terraform
+*.tfstate*
+terraform/known_hosts
+.terraform.lock.hcl
+*.pem
+*.tgz

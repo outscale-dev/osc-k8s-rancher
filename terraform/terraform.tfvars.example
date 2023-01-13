@@ -1,0 +1,12 @@
+#access_key_id       = "MyAccessKey"
+#secret_key_id       = "MySecretKey"
+#region              = "eu-west-2"
+
+image_id                  = "ami-37b14bc1" # Centos
+bastion_vm_type           = "tinav4.c2r4p1"
+bastion_volume_type       = "gp2"
+bastion_volume_size       = 15
+bastion_iops              = 1500
+cluster_name              = "phandalin"
+subregion-1               = "eu-west-2a"
+rancher_server_admin_password = "password"

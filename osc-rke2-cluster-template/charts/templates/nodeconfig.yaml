@@ -1,0 +1,39 @@
+{{- range $index, $nodepool := .Values.nodepools }}
+apiVersion: rke-machine-config.cattle.io/v1
+kind: OutscaleConfig
+metadata:
+  name: {{ $nodepool.name }}
+  namespace: fleet-default
+{{- if $nodepool.instanceType }}
+instanceType: {{ $nodepool.instanceType }}
+{{- end }}
+{{- if $nodepool.rootDiskIops }}
+rootDiskIops: "1500"
+{{- end }}
+{{- if $nodepool.rootDiskSize }}
+rootDiskSize: "15"
+{{- end }}
+{{- if $nodepool.rootDiskType }}
+rootDiskType: gp2
+{{- end }}
+{{- if $nodepool.securityGroupIds }}
+securityGroupIds: {{ toYaml $nodepool.securityGroupIds | nindent 4 }}
+{{- end }}
+extraTagsInstances: 
+  - "OscK8sClusterID/{{ (get $.Values.cluster "name")}}=owned"
+{{- if $nodepool.extraTagsInstances }}
+  {{- toYaml $nodepool.extraTagsInstances | nindent 2 }}
+{{- end }}
+{{- if $nodepool.extraTagsAll }}
+extraTagsAll: {{ toYaml $nodepool.extraTagsAll | nindent 4 }}
+{{- end }}
+{{- if $nodepool.securityGroupIds }}
+securityGroupIds: {{ toYaml $nodepool.securityGroupIds | nindent 4 }}
+{{- end }}
+sourceOmi: {{ (get $.Values "sourceOmi")}}
+{{- if $nodepool.subnetId }}
+subnetId: {{ $nodepool.subnetId }}
+{{- end }}
+kubernetesNodeNameAutotag: true
+---
+{{- end }}

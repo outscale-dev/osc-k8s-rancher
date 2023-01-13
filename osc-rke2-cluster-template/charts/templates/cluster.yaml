@@ -1,0 +1,91 @@
+apiVersion: provisioning.cattle.io/v1
+kind: Cluster
+metadata:
+  {{- if .Values.cluster.labels }}
+  labels:
+{{ toYaml .Values.cluster.labels | indent 4 }}
+  {{- end }}
+  {{- if .Values.cluster.annotations }}
+  annotations:
+{{ toYaml .Values.cluster.annotations | indent 4 }}
+  {{- end }}
+  name: {{ .Values.cluster.name }}
+  namespace: fleet-default
+spec:
+  cloudCredentialSecretName: cattle-global-data:{{ .Values.cloudCredentialSecretName }}
+  kubernetesVersion: {{ .Values.kubernetesVersion }}
+  enableNetworkPolicy: true
+  rkeConfig:
+    additionalManifest: |-
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: osc-secret
+        namespace: kube-system
+      stringData:
+        key_id: {{ .Values.access_key }}
+        access_key: {{ .Values.secret_key }}
+        aws_default_region: {{ .Values.region }}
+        aws_availability_zones: MY_AWS_AVAILABILITY_ZONES
+        osc_account_id: MY_OSC_ACCOUNT_ID
+        osc_account_iam: MY_OSC_ACCOUNT_IAM
+        osc_user_id: MY_OSC_USER_ID
+        osc_arn: MY_OSC_ARN
+      ---
+      apiVersion: helm.cattle.io/v1
+      kind: HelmChart
+      metadata:
+        name: ccm
+        namespace: kube-system
+      spec:
+        chart: https://github.com/outscale-dev/cloud-provider-osc/releases/download/v0.2.0/osc-cloud-controller-manager-0.2.0.tgz
+        targetNamespace: kube-system
+        bootstrap: true
+    machinePools:
+    {{- if .Values.nodepools }} {{ range $index, $nodepool := .Values.nodepools }}
+    - controlPlaneRole: {{ $nodepool.controlplane }}
+      etcdRole: {{ $nodepool.etcd }}
+      workerRole: {{ $nodepool.worker }}
+      quantity: {{ $nodepool.quantity }}
+      name: {{ $nodepool.name }}
+      machineConfigRef:
+        {{- if eq $.Values.cloudprovider "outscale" }}
+        kind: OutscaleConfig
+        {{- end}}
+        name: {{ $nodepool.name }}
+      paused: {{ $nodepool.paused }}
+      displayName: {{ $nodepool.displayName }}
+      {{- if $nodepool.rollingUpdate }}
+      rollingUpdate:
+        maxUnavailable: {{ $nodepool.rollingUpdate.maxUnavailable }}
+        maxSurge: {{ $nodepool.rollingUpdate.maxSurge }}
+      {{- end }}
+      {{- if $nodepool.machineDeploymentLabels }}
+      machineDeploymentLabels:
+{{ toYaml $nodepool.machineDeploymentLabels | indent 8 }}
+      {{- end }}
+      {{- if $nodepool.machineDeploymentAnnotations }}
+      machineDeploymentAnnotations:
+{{ toYaml $nodepool.machineDeploymentAnnotations | indent 8 }}
+      {{- end }}
+      {{- end }}
+    {{- end }}
+    machineGlobalConfig:
+      cni: calico
+      disable-kube-proxy: false
+      etcd-expose-metrics: false
+    machineSelectorConfig:
+    - config:
+        cloud-provider-name: external
+        protect-kernel-defaults: false
+    upgradeStrategy:
+      controlPlaneDrainOptions:
+        enabled: false
+      workerDrainOptions:
+        enabled: false
+      workerConcurrency: "10%"
+      controlPlaneConcurrency: "10%"
+{{- if .Values.agentEnvs }}
+  agentEnvVars:
+{{ toYaml .Values.agentEnvs | indent 4 }}
+{{- end }}

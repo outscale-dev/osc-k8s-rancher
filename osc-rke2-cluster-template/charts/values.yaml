@@ -1,0 +1,50 @@
+# Outscale Access Key
+access_key: ""
+# Outscale Secret Key
+secret_key: ""
+# Outscale Region
+region: "eu-west-2"
+
+# Name of the created cloud credentials
+cloudCredentialSecretName: 
+# kubernetes version to install
+kubernetesVersion: v1.24.8+rke2r1
+
+
+cluster:
+  # Name of the cluster
+  name: osc-template-rke2
+
+# default OMI Id for eu-west-2
+sourceOmi: "ami-7b8d1702"
+
+# Specify nodepool options. Can add multiple node groups, specify etcd, controlplane and worker roles.
+nodepools:
+  - etcd: true
+    controlplane: true
+    worker: true
+    # specify node labels
+    labels: {}
+
+    # specify node taints
+    taints: {}
+
+    # specify nodepool size
+    quantity: 1
+
+    # specify nodepool name
+    name: ""
+
+    sourceOmi: "ami-7b8d1702"
+
+    instanceType: tinav5.c4r4p3
+
+    securityGroups:
+
+    # AWS VPC subnet id
+    subnetId: 
+
+    extraTagsInstances:
+
+    rootDiskSize: 15
+    rootDiskType: "gp2"

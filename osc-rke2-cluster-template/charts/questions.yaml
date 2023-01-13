@@ -1,0 +1,117 @@
+questions:
+- variable: cluster.name
+  default: mycluster
+  description: "Specify the name of the cluster"
+  label: "Cluster Name"
+  required: true
+  type: string
+  group: "General"
+- variable: kubernetesVersion
+  default: v1.24.8+rke2r1
+  description: "Specify Kubernetes version"
+  label: "Kubernetes Version"
+  type: enum
+  required: true
+  options:
+  - v1.24.8+rke2r1
+  group: "General"
+- variable: sourceOmi
+  label: "Outscale ID"
+  default: "ami-7b8d1702"
+  type: string
+  required: true
+  description: "Outscale OMI ID"
+  group: "General"
+- variable: cloudCredentialSecretName
+  default:
+  required: true
+  description: "CloudCredentialName for provisioning cluster"
+  label: "CloudCredential Name"
+  type: string
+  group: "Credentials"
+- variable: access_key
+  default:
+  description: "Outscale Access Key"
+  label: "Access Key"
+  type: string
+  group: "Credentials"
+  required: true
+- variable: secret_key
+  default:
+  description: "Outscale Secret Key"
+  label: "Secret Key"
+  type: password
+  group: "Credentials"
+  required: true
+- variable: region
+  default: eu-west-2
+  description: "Outscale Region"
+  label: "Region"
+  type: enum
+  group: "Credentials"
+  required: true
+  options:
+    - ap-northeast-1
+    - cloudgouv-eu-west-1
+    - eu-west-2
+    - us-east-2
+    - us-west-1
+- variable: nodepools.0.name
+  default:
+  description: "Specify nodepool name"
+  type: string
+  label: "Nodepool name"
+  required: true
+  group: "Nodepools"
+- variable: nodepools.0.quantity
+  default: 1
+  description: "Specify node count"
+  type: int
+  required: true
+  label: "Node count"
+  group: "Nodepools"
+- variable: nodepools.0.etcd
+  default: true
+  label: etcd
+  type: boolean
+  group: "Nodepools"
+- variable: nodepools.0.worker
+  default: true
+  label: worker
+  type: boolean
+  group: "Nodepools"
+- variable: nodepools.0.controlplane
+  label: controlplane
+  default: true
+  type: boolean
+  group: "Nodepools"
+# Outscale
+- variable: nodepools.0.instanceType
+  label: "Instance Type"
+  default: tinav2.c2r4p3
+  type: string
+  description: "Outscale instance type"
+  required: true
+  group: "Nodepools"
+- variable: nodepools.0.rootDiskSize
+  label: "Root Disk Size"
+  default: 15
+  type: string
+  description: "Outscale root disk size"
+  group: "Nodepools"
+- variable: nodepools.0.rootDiskType
+  label: "Root Disk Type"
+  default: gp2
+  description: "Outscale root disk type"
+  group: "Nodepools"
+  type: enum
+  options:
+  - gp2
+  - io1
+  - standard
+- variable: nodepools.0.subnetId
+  label: "SubnetId"
+  default: ""
+  type: string
+  description: "Outscale Subnet ID"
+  group: "Nodepools"

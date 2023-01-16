@@ -23,9 +23,7 @@ data "rancher2_cluster_v2" "local" {
 resource "rancher2_catalog_v2" "foo" {
   cluster_id = data.rancher2_cluster_v2.local.cluster_v1_id
   name = "osc-k8s-rke2"
-  #git_repo = "https://github.com/outscale-dev/osc-k8s-rancher"
-  #git_branch = "main"
-  url = "https://oos.eu-west-2.outscale.com/chart/osc-rke2-template"
-
+  git_repo = "https://github.com/outscale-dev/osc-k8s-rancher"
+  git_branch = "main"
   provider = rancher2.admin
 }

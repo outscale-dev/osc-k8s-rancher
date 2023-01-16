@@ -7,6 +7,22 @@ resource "outscale_route" "bastion-az-1-default" {
 resource "outscale_public_ip_link" "bastion-az-1" {
   vm_id     = outscale_vm.bastion-az-1.vm_id
   public_ip = outscale_public_ip.bastion.public_ip
+
+  ## Wait that the ip is linked and the Vm is started
+  provisioner "remote-exec" {
+    inline = [
+      "echo 'Waiting for cloud-init to complete...'",
+      "cloud-init status --wait > /dev/null",
+      "echo 'Completed cloud-init!'",
+    ]
+
+    connection {
+      type        = "ssh"
+      host        = outscale_public_ip.bastion.public_ip
+      user        = "outscale"
+      private_key = tls_private_key.bastion-az-1.private_key_pem
+    }
+  }
 }
 
 resource "tls_private_key" "bastion-az-1" {
@@ -77,5 +93,9 @@ data "outscale_public_ip" "rancher_server" {
     values = [outscale_public_ip.bastion.public_ip]
   }
   public_ip  = outscale_public_ip.bastion.public_ip
-  depends_on = [outscale_public_ip_link.bastion-az-1, outscale_security_group_rule.bastion-az-1-ssh]
+  depends_on = [outscale_public_ip_link.bastion-az-1,
+                outscale_security_group_rule.bastion-az-1-ssh, 
+                outscale_internet_service_link.internet_service_link,
+                outscale_route_table_link.public-az-1,
+                outscale_route.bastion-az-1-default]
 }

@@ -41,6 +41,14 @@ spec:
         chart: https://github.com/outscale-dev/cloud-provider-osc/releases/download/v0.2.0/osc-cloud-controller-manager-0.2.0.tgz
         targetNamespace: kube-system
         bootstrap: true
+        valuesContent: |-
+          tolerations:
+            - key: node-role.kubernetes.io/control-plane
+              effect: NoSchedule 
+              operator: Exists 
+            - key: node-role.kubernetes.io/etcd
+              effect: NoExecute
+              operator: Exists 
     machinePools:
     {{- if .Values.nodepools }} {{ range $index, $nodepool := .Values.nodepools }}
     - controlPlaneRole: {{ $nodepool.controlplane }}
@@ -49,9 +57,7 @@ spec:
       quantity: {{ $nodepool.quantity }}
       name: {{ $nodepool.name }}
       machineConfigRef:
-        {{- if eq $.Values.cloudprovider "outscale" }}
         kind: OutscaleConfig
-        {{- end}}
         name: {{ $nodepool.name }}
       paused: {{ $nodepool.paused }}
       displayName: {{ $nodepool.displayName }}

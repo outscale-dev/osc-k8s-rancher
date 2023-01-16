@@ -5,3 +5,7 @@ This repository explains how to setup a rancher server on Outscale Cloud
 # Architecture
 
 ![Architecture](./rancher-az-architecture.drawio.png)
+
+
+# See also
+- [Deploying](deploy.md)

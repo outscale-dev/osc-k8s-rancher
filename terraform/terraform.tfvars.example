@@ -1,12 +1,33 @@
-#access_key_id       = "MyAccessKey"
-#secret_key_id       = "MySecretKey"
-#region              = "eu-west-2"
 
-image_id                  = "ami-37b14bc1" # Centos
-bastion_vm_type           = "tinav4.c2r4p1"
-bastion_volume_type       = "gp2"
-bastion_volume_size       = 15
-bastion_iops              = 1500
-cluster_name              = "phandalin"
-subregion-1               = "eu-west-2a"
-rancher_server_admin_password = "password"
+# Outscale access key
+access_key_id = ""
+
+# Outscale machine Image to use for all instances
+image_id = ""
+
+# Admin password to use for Rancher server bootstrap, min. 12 characters
+rancher_server_admin_password = ""
+
+# Outscale secret key
+secret_key_id = ""
+
+# Number of IOPS in case of io1 disk type (https://docs.outscale.com/en/userguide/About-Volumes.html#_volume_types_and_iops)
+bastion_iops = "1500"
+
+# Instance type used for the VM (https://docs.outscale.com/en/userguide/Instance-Types.html)
+bastion_vm_type = "tinav4.c2r4p1"
+
+# Size of the volume
+bastion_volume_size = "15"
+
+# Type of volume to use (https://docs.outscale.com/en/userguide/About-Volumes.html#_volume_types_and_iops)
+bastion_volume_type = "gp2"
+
+# Name of the first cluster
+cluster_name = "phandalin"
+
+# Outscale region
+region = "eu-west-2"
+
+# Region to deploy these resources
+subregion-1 = "eu-west-2a"

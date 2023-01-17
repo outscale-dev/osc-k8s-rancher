@@ -37,10 +37,12 @@ No modules.
 | [helm_release.cert_manager](https://registry.terraform.io/providers/hashicorp/helm/2.5.1/docs/resources/release) | resource |
 | [helm_release.rancher_server](https://registry.terraform.io/providers/hashicorp/helm/2.5.1/docs/resources/release) | resource |
 | [local_file.kube_config_server_yaml](https://registry.terraform.io/providers/hashicorp/local/2.2.3/docs/resources/file) | resource |
-| [local_file.kube_config_workload_yaml](https://registry.terraform.io/providers/hashicorp/local/2.2.3/docs/resources/file) | resource |
 | [rancher2_bootstrap.admin](https://registry.terraform.io/providers/rancher/rancher2/1.24.0/docs/resources/bootstrap) | resource |
+| [rancher2_catalog_v2.foo](https://registry.terraform.io/providers/rancher/rancher2/1.24.0/docs/resources/catalog_v2) | resource |
+| [rancher2_node_driver.outscale](https://registry.terraform.io/providers/rancher/rancher2/1.24.0/docs/resources/node_driver) | resource |
 | [ssh_resource.install_k3s](https://registry.terraform.io/providers/loafoe/ssh/1.2.0/docs/resources/resource) | resource |
 | [ssh_resource.retrieve_config](https://registry.terraform.io/providers/loafoe/ssh/1.2.0/docs/resources/resource) | resource |
+| [rancher2_cluster_v2.local](https://registry.terraform.io/providers/rancher/rancher2/1.24.0/docs/data-sources/cluster_v2) | data source |
 
 ## Inputs
 

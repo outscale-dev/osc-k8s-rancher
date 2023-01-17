@@ -34,14 +34,21 @@ rancher_node_ip = "XX.XX.XX.XX" # The IP of the server
 rancher_server_url = "https://rancher.XX.XX.XX.XX.sslip.io" # The URL to access the rancher server
 ```
 
-# Deploying Kubernetes cluster wih rke2
+# Deploying your first Kubernetes cluster wih rke2
 After deploying the rancher server:
 - go to the website and accept the risk which is a carning from the web browser stating that the certificate is self-sign
 - enter the credentials admin then the password that you have setted in `terraform.tfvars`
 - click on `Create`
 - On top of the page, you will have a cluster template, click on it for creating your first rke2 cluster
 
-You will need to put your AK/Sk and the output of terraform. Watch out that for security group, you will need to put them directly in the YAML file.
+You will need to put your AK/SK and the output of terraform. Watch out that for security group, you will need to put them directly in the YAML file. Finally, your first cluster must have the same name than the the name you put in the `terraform.tfvars`.
+
+# Deploying additional clusters
+Before performing the previous steps, you need to:
+- Create a new security groups
+- Add some tags for the CCM to work well:
+   - `OscK8sClusterID/<cluster_name>=owned` on the Subnet, Node Security Group and the public Route Table
+   - `OscK8sMainSG/<cluster_name>=True` on the Node Security Group
 
 # Destroying
 Make sure that there no cluster in the subnet and execute 

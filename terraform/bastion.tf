@@ -26,8 +26,8 @@ resource "outscale_public_ip_link" "bastion-az-1" {
 }
 
 resource "tls_private_key" "bastion-az-1" {
-  algorithm = "RSA"
-  rsa_bits  = "4096"
+  algorithm   = "ECDSA"   
+  ecdsa_curve = "P384"
 }
 
 resource "local_file" "bastion-az-1-pem" {

@@ -39,7 +39,7 @@ nodepools:
 
     instanceType: tinav5.c4r4p3
 
-    securityGroups:
+    securityGroupIds:
 
     # AWS VPC subnet id
     subnetId: 
